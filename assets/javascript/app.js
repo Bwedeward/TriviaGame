@@ -10,9 +10,10 @@
 //screen shows correct/incorrect/unanswered
 
 $(document).ready(function() {
-  var correct = 0;
-  var incorrect = 0;
-  var unanswered = 0;
+  
+  var correct = "";
+  var incorrect = "";
+  var unanswered = "";
   var timer = 60;
   var timerOn = false;
 
@@ -62,7 +63,12 @@ $(document).ready(function() {
   ];
 
   $(".startButton").on("click", function() {
-    console.log("CLICK AND I'M HERE");
+    console.log("The Game Has Started!");
+    $(".startButton").remove()
+    correct = 0;
+    incorrect = 0;
+    unanswered = 0;
+    countDown()
     startTrivia();
   });
 
@@ -82,13 +88,51 @@ $(document).ready(function() {
       }
       questions.append(question);
     }
+    $(".btn").on("click", function(guess){
+      var id = $(this).attr(j)
+      if (id === answer){
+        correctAnswer()
+        console.log("correct")
+      }
+      else {
+        incorrectAnswer()
+        console.log("incorrect")
+      }
+      // else {
+      //   unansweredAnswer()
+      // }
+    })
   }
 
-  // function countDown (){
+  
 
+  function correctAnswer(){
+    correct++
+  }
+
+  function incorrectAnswer(){
+    incorrect++
+  }
+
+  // function unansweredAnswer(){
+  //   unanswered++
   // }
 
-  // for (var i = 0; i < triviaQuestions.length; i++){
+  function countDown (){
+    $(".timeCounter").text("Time", timer)
+    if (!timerOn){
+      timer--
+    }
+    if (timer === 0){
+      clearInterval()
+      gameOver()
+    }
+  }
 
-  // }
+  setInterval(countDown, 1000)
+
+  function gameOver (){
+    $(".questions").empty()
+
+  }
 });
