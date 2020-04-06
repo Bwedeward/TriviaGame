@@ -89,18 +89,19 @@ $(document).ready(function() {
       questions.append(question);
     }
     $(".btn").on("click", function(guess){
-      var id = $(this).attr(j)
+      
+      var id = $(this).attr()
       if (id === answer){
         correctAnswer()
         console.log("correct")
       }
-      else {
+      else if (id === answer){
         incorrectAnswer()
         console.log("incorrect")
       }
-      // else {
-      //   unansweredAnswer()
-      // }
+      else {
+        unansweredAnswer()
+      }
     })
   }
 
@@ -114,14 +115,16 @@ $(document).ready(function() {
     incorrect++
   }
 
-  // function unansweredAnswer(){
-  //   unanswered++
-  // }
+  function unansweredAnswer(){
+    unanswered++
+  }
 
   function countDown (){
-    $(".timeCounter").text("Time", timer)
+    timer = setInterval(timer, 1000);
     if (!timerOn){
+      timerOn = true
       timer--
+      $(".timeCounter").text("Time", timer)
     }
     if (timer === 0){
       clearInterval()
