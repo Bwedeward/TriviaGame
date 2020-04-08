@@ -9,8 +9,7 @@
 //click "done" button
 //screen shows correct/incorrect/unanswered
 
-$(document).ready(function() {
-  
+$(document).ready(function () {
   var correct = "";
   var incorrect = "";
   var unanswered = "";
@@ -23,52 +22,52 @@ $(document).ready(function() {
     {
       question: "What pet did Harry Potter Have?",
       options: ["Toad", "Owl", "Lizard", "Cat"],
-      answer: "1"
+      answer: "1",
     },
     {
       question: "How did students get to Hogwarts?",
       options: ["Car", "Brooms", "Train", "Magic Carpets"],
-      answer: "2"
+      answer: "2",
     },
     {
       question: "Who tried to kill Harry?",
       options: ["Snape", "Hagrid", "Voldemort", "Dudley"],
-      answer: "2"
+      answer: "2",
     },
     {
       question: "What is the house number Harry grew up in?",
       options: ["Four", "Twelve", "Six", "Fourteen"],
-      answer: "0"
+      answer: "0",
     },
     {
       question: "Who told Harry he was a wizard?",
       options: ["Dumbledore", "McGonagall", "Snape", "Hagrid"],
-      answer: "3"
+      answer: "3",
     },
     {
       question: "What was Harry's dad's name?",
       options: ["Joe", "Sirius", "James", "Remus"],
-      answer: "2"
+      answer: "2",
     },
     {
       question: "Who has a half brother that's a giant?",
       options: ["Hagrid", "Ron", "Harry", "Hermoine"],
-      answer: "0"
+      answer: "0",
     },
     {
       question: "What position does Harry play in Quidditch?",
       options: ["Beater", "Seeker", "Chaser", "Squabbler"],
-      answer: "1"
-    }
+      answer: "1",
+    },
   ];
 
-  $(".startButton").on("click", function() {
+  $(".startButton").on("click", function () {
     console.log("The Game Has Started!");
-    $(".startButton").remove()
+    $(".startButton").remove();
     correct = 0;
     incorrect = 0;
     unanswered = 0;
-    countDown()
+    countDown();
     startTrivia();
   });
 
@@ -79,63 +78,62 @@ $(document).ready(function() {
 
       for (var i = 0; i < triviaQuestions[index].options.length; i++) {
         var option = $("<label class ='btn btn-secondary'>");
+        option.attr("data-question", index);
         var input = $(
           `<input type='radio' id='option${i + 1}' name='option${i + 1}'>`
         );
-        option.append(input)
-        option.text(triviaQuestions[index].options[i])
-        question.append(option)
+        option.append(input);
+        option.text(triviaQuestions[index].options[i]);
+        question.append(option);
       }
       questions.append(question);
     }
-    $(".btn").on("click", function(guess){
-      
-      var id = $(this).attr()
-      if (id === answer){
-        correctAnswer()
-        console.log("correct")
+
+    $(".btn").on("click", function (guess) {
+      var id = $(this).text();
+      var questionIndex = $(this).attr("data-question");
+      console.log(id);
+      var answerIndex = triviaQuestions[questionIndex].answer;
+      var answer = triviaQuestions[questionIndex].options[answerIndex];
+      if (id === answer) {
+        correctAnswer();
+        console.log("correct");
+      } else if (id != answer) {
+        incorrectAnswer();
+        console.log("incorrect");
+      } else {
+        unansweredAnswer();
       }
-      else if (id === answer){
-        incorrectAnswer()
-        console.log("incorrect")
-      }
-      else {
-        unansweredAnswer()
-      }
-    })
+    });
   }
 
-  
-
-  function correctAnswer(){
-    correct++
+  function correctAnswer() {
+    correct++;
   }
 
-  function incorrectAnswer(){
-    incorrect++
+  function incorrectAnswer() {
+    incorrect++;
   }
 
-  function unansweredAnswer(){
-    unanswered++
+  function unansweredAnswer() {
+    unanswered++;
   }
 
-  function countDown (){
-    timer = setInterval(timer, 1000);
-    if (!timerOn){
-      timerOn = true
-      timer--
-      $(".timeCounter").text("Time", timer)
+  function countDown() {
+    timer = setInterval(countDown, 1000);
+    if (!timerOn) {
+      timerOn = true;
+      timer--;
+      console.log(timer);
+      $(".timeCounter").text("Time", timer);
     }
-    if (timer === 0){
-      clearInterval()
-      gameOver()
+    if (timer === 0) {
+      clearInterval();
+      gameOver();
     }
   }
 
-  setInterval(countDown, 1000)
-
-  function gameOver (){
-    $(".questions").empty()
-
+  function gameOver() {
+    $(".questions").empty();
   }
 });
